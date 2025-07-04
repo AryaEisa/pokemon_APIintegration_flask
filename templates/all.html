@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>All Pokémon</title>
-
-    <!-- Länk till extern CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='all.css') }}">
 
-    <!-- Intern stil för tillbaka-knappen i övre hörnet -->
+    <!-- Intern stil för tillbaka-knappen -->
     <style>
         .close-button {
             position: fixed;
@@ -35,17 +33,20 @@
 <body>
     <div class="container">
 
-        <!-- Sidhuvud -->
+        <!-- Header -->
         <header>
             <h1>All Pokémon</h1>
-
-            <!-- Tillbaka-knapp (överst) -->
             <a href="/" aria-label="Return to main page">
                 <button class="close-button" title="Back to start">X</button>
             </a>
         </header>
 
-        <!-- Filtreringsformulär -->
+        <!-- 🔍 Sökfält -->
+        <section aria-label="Search Pokémon">
+            <input type="text" id="searchInput" placeholder="Search Pokémon by name..." class="search-box">
+        </section>
+
+        <!-- 📊 Filterformulär -->
         <section aria-label="Filter Pokémon">
             <form method="POST" class="filter-form">
                 <input type="number" name="min_height" placeholder="Min Height (dm)" min="0">
@@ -55,7 +56,7 @@
             </form>
         </section>
 
-        <!-- Pokémon-grid med kort -->
+        <!-- 🧬 Pokémon-kort -->
         <main id="pokemonGrid" class="grid" aria-label="Pokémon Cards">
             {% for p in pokemon_list %}
                 <article class="card" data-name="{{ p.name | lower }}" aria-label="Pokémon card for {{ p.name }}">
@@ -64,8 +65,6 @@
                     <p class="poke-info">Height: {{ p.height }} dm</p>
                     <p class="poke-info">Weight: {{ p.weight }} hg</p>
                     <p class="poke-info">Attack: {{ p.attack }}</p>
-
-                    <!-- Formulär för att visa detaljerad vy -->
                     <form method="POST" action="/">
                         <input type="hidden" name="pokemon_name" value="{{ p.name }}">
                         <button type="submit">Details</button>
@@ -74,26 +73,13 @@
             {% endfor %}
         </main>
 
-        <!-- Alternativ navigeringslänk -->
+        <!-- Footer -->
         <footer>
             <p style="margin-top: 30px;"><a href="/">← Back</a></p>
         </footer>
     </div>
 
-    <!-- JS för realtidsfiltrering (om sökfält finns) -->
-    <script>
-        const input = document.getElementById("searchInput");
-        const cards = document.querySelectorAll(".card");
-
-        if (input) {
-            input.addEventListener("input", () => {
-                const val = input.value.toLowerCase();
-                cards.forEach(card => {
-                    const name = card.getAttribute("data-name");
-                    card.style.display = name.includes(val) ? "block" : "none";
-                });
-            });
-        }
-    </script>
+    <!-- ✅ Extern JavaScript efter att all HTML har laddats -->
+    <script src="{{ url_for('static', filename='all.js') }}"></script>
 </body>
 </html>
