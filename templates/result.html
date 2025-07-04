@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ pokemon.name.capitalize() }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="glitch">🧬 {{ pokemon.name.upper() }} STATS</h1>
+        <img src="{{ pokemon.sprites.front_default }}" alt="Sprite">
+        <div class="details">
+            <p><strong>⚖️ Weight:</strong> {{ pokemon.weight }}</p>
+            <p><strong>📏 Height:</strong> {{ pokemon.height }}</p>
+            <p><strong>🔥 Types:</strong></p>
+            <ul>
+                {% for type in pokemon.types %}
+                    <li>{{ type.type.name.upper() }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <a href="/" style="color:#f0f; text-decoration: none;">← RETURN TO TERMINAL</a>
+    </div>
+</body>
+</html>

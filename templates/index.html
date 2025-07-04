@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokémon Overkill Terminal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="glitch">⚡ POKéMON CYBER TERMINAL ⚡</h1>
+        <form method="POST">
+            <input type="text" name="pokemon_name" placeholder="ENTER NAME">
+            <br>
+            <button type="submit">ENGAGE</button>
+        </form>
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
+        <p><a href="/all">See all Pokémon</a></p>
+
+    </div>
+</body>
+</html>
