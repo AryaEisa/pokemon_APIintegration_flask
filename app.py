@@ -25,7 +25,7 @@ def index():
 
 @app.route("/all", methods=["GET", "POST"])
 def all_pokemon():
-    MAX_POKEMON = 50
+    MAX_POKEMON = 1500
     pokemon_list = load_cached_pokemon()
 
     if not pokemon_list:
