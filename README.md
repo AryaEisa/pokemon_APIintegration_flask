@@ -4,39 +4,40 @@ Detta projekt är en enkel men kraftfull webbapplikation som låter användaren 
 ![](static/images/1.png)
 ![](static/images/2.png)
 ![](static/images/3.png)
+![](static/images/4.png)
 
-## Funktioner
+---
 
-- Sök Pokémon med namn
-- Visa detaljer som längd, vikt och attack
-- Filtrera efter min/max-attribut
-- Mobilanpassad och responsiv design
-- Dynamisk kortvy över alla Pokémon
-- Integration med externt API (PokeAPI)
+## 🧩 Funktioner
 
-## Använda tekniker
+- 🔍 Sök Pokémon med namn
+- 📏 Visa längd, vikt och attack
+- 🧮 Filtrera Pokémon efter:
+  - Minsta längd
+  - Maxvikt
+  - Min attackstyrka
+- 📊 Dynamisk statistikgraf för attackvärden
+- 💾 Använder PokeAPI som extern datakälla
+- 🎨 Mobilanpassad och pixelinspirerad design
+- ⚡ Visar alla Pokémon som kort (grid view)
+- 🧠 Realtidsfiltrering via JavaScript
+- 🖼️ Visualisering med Matplotlib
 
-### 1. Flask (Python Web Framework)
-Flask används för att skapa servern, hantera routing, processa formulärdata och rendera HTML-sidor dynamiskt med hjälp av Jinja2.
+---
 
-### 2. Requests (Python HTTP-bibliotek)
-Requests används för att göra HTTP-anrop till PokeAPI och hämta Pokémon-data i JSON-format.
+## 🛠 Använda tekniker
 
-### 3. HTML 
-HTML används för att skapa strukturen på webbplatsen. Flask använder Jinja2-mallmotor för att rendera innehåll dynamiskt direkt från Python-kod.
+| Teknik         | Beskrivning |
+|----------------|-------------|
+| **Flask**      | Webbramverk i Python som hanterar routing, rendering och logik |
+| **Requests**   | Hämtar JSON-data från PokeAPI |
+| **Matplotlib** | Används för att skapa stapeldiagram för attack-statistik |
+| **HTML + Jinja2** | Dynamisk rendering av sidor |
+| **CSS**        | Anpassad layout, responsiv och retro-spelinspirerad |
+| **JavaScript** | Realtidsfiltrering av korten direkt i browsern |
+| **JSON**       | Strukturen på datan från API:et |
 
-### 4. CSS (Stil och Layout)
-All design hanteras med anpassad CSS som inkluderar mobilanpassning, färgteman, kortlayout och grid-system. Designen är pixelinspirerad och tydligt spelrelaterad.
-
-### 5. JavaScript (Filtrering på klientsidan)
-Enkel JavaScript används för att implementera realtidsfiltrering i listan med Pokémon-kort, baserat på användarens sökinput.
-
-### 6. PokeAPI (Externt REST API)
-PokeAPI används som datakälla. Varje gång en användare gör en förfrågan hämtas Pokémonens attribut via ett HTTP-anrop.
-
-### 7. JSON (Dataformat)
-All data från PokeAPI levereras i JSON och omvandlas till Python-objekt för vidare bearbetning i applikationen.
-
+---
 
 ## Installation och körning
 

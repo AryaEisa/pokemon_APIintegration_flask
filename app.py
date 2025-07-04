@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from generate_stats import generate_chart_image
 from pokemon_api import (
     get_pokemon_info,
     load_cached_pokemon,
@@ -45,6 +46,13 @@ def all_pokemon():
         ]
 
     return render_template("all.html", pokemon_list=pokemon_list)
+
+
+@app.route("/stats")
+def stats():
+    # Generera statistikbild varje gång sidan laddas
+    generate_chart_image()
+    return render_template("stats.html", image_url="/static/stats.png")
 
 if __name__ == "__main__":
     app.run(debug=True)
