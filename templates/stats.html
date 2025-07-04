@@ -3,32 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>Stats Overview</title>
-
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Inbyggd stil -->
     <style>
         body {
             background-color: #000;
             color: #fff;
             font-family: 'Press Start 2P', monospace;
-            text-align: center;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px 20px;
+            text-align: center;
         }
 
         .glitch {
-            font-size: 2.5em;
+            font-size: 2em;
             color: #f0f;
-            text-shadow: 0 0 5px #f0f, 0 0 10px #f0f, 0 0 15px #f0f, 0 0 20px #f0f, 0 0 25px #f0f, 0 0 30px #f0f, 0 0 35px #f0f;
+            text-shadow:
+                0 0 2px #f0f,
+                0 0 4px #f0f,
+                0 0 8px #f0f,
+                0 0 12px #f0f,
+                0 0 16px #f0f;
+        }
+
+        img {
+            max-width: 100%;
+            margin-top: 40px;
+            border: 2px solid #f0f;
+            box-shadow: 0 0 20px #f0f;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 40px;
+            color: #0ff;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        a:hover {
+            color: #fff;
+            text-shadow: 0 0 5px #0ff;
         }
     </style>
+</head>
+<body>
     <div class="container">
         <h1 class="glitch">📊 Pokémon Stats</h1>
-        <img src="{{ image_url }}" alt="Stats Chart" style="max-width: 100%; margin-top: 30px;">
+        <img src="{{ image_url }}" alt="Stats Chart">
         <p><a href="/">← Back to main</a></p>
     </div>
 </body>
