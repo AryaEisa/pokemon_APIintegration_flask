@@ -10,18 +10,20 @@ Detta projekt är en enkel men kraftfull webbapplikation som låter användaren 
 
 ## 🧩 Funktioner
 
-- 🔍 Sök Pokémon med namn
-- 📏 Visa längd, vikt och attack
-- 🧮 Filtrera Pokémon efter:
+- Sök Pokémon med namn
+- Visa längd, vikt och attack
+- Filtrera Pokémon efter:
   - Minsta längd
   - Maxvikt
   - Min attackstyrka
-- 📊 Dynamisk statistikgraf för attackvärden
-- 💾 Använder PokeAPI som extern datakälla
-- 🎨 Mobilanpassad och pixelinspirerad design
-- ⚡ Visar alla Pokémon som kort (grid view)
-- 🧠 Realtidsfiltrering via JavaScript
-- 🖼️ Visualisering med Matplotlib
+- Dynamisk statistikgraf för attackvärden
+- Använder PokeAPI som extern datakälla
+- Mobilanpassad och pixelinspirerad design
+- Visar alla Pokémon som kort (grid view)
+- Realtidsfiltrering via JavaScript
+- Visualisering med Matplotlib
+- Caching av data för bättre prestanda
+- Grundläggande säkerhetsåtgärder (ratelimit, headers, input-skydd)
 
 ---
 
@@ -36,6 +38,22 @@ Detta projekt är en enkel men kraftfull webbapplikation som låter användaren 
 | **CSS**        | Anpassad layout, responsiv och retro-spelinspirerad |
 | **JavaScript** | Realtidsfiltrering av korten direkt i browsern |
 | **JSON**       | Strukturen på datan från API:et |
+| **ThreadPoolExecutor** | Snabbar upp API-anrop vid parallell hämtning av Pokémon |
+| **tkinter (headless)** | Visualisering renderas utan fönster |
+| **Security Middleware** | Anpassad modul för säkerhet (ratelimit, headers, inputvalidering)
+
+---
+
+## 🔐 Säkerhet
+
+Projektet innehåller en **dedikerad säkerhetsmodul (`security.py`)** som implementerar:
+
+- **Rate Limiting:** Begränsar varje IP till 40 requests per minut
+- **Inputsanering:** Rensar bort potentiellt farlig input
+- **HTTP Headers:** Lägger till säkra HTTP-responshuvuden, t.ex. Content-Security-Policy, X-Frame-Options och Referrer-Policy
+- **Cache-prevention:** Inaktiverar cache för känsliga sidor
+
+Integrationen sker automatiskt genom `@rate_limit()` på varje route samt via `@app.after_request` som applicerar headers globalt.
 
 ---
 
