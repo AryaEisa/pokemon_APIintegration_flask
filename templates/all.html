@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>All Pokémon</title>
+
+    <!-- Länkar till extern CSS-fil -->
     <link rel="stylesheet" href="{{ url_for('static', filename='all.css') }}">
+
     <style>
-        /* 🔙 Fast "X"-knapp i övre hörnet */
+        /* Fast placerad stäng-knapp ("X") uppe i högra hörnet */
         .close-button {
             position: fixed;
             top: 16px;
@@ -31,14 +34,16 @@
 </head>
 <body>
     <div class="container">
+
+        <!-- Sidhuvud -->
         <h1>All Pokémon</h1>
 
-        <!-- 🔙 Tillbaka-knapp -->
+        <!-- Tillbaka-knapp (kors) som leder tillbaka till startsidan -->
         <a href="/">
             <button class="close-button">X</button>
         </a>
 
-        <!-- 🧮 Attribut-filtrering -->
+        <!-- Filtreringsformulär: Användaren kan filtrera på höjd, vikt och attack -->
         <form method="POST" class="filter-form">
             <input type="number" name="min_height" placeholder="Min Height (dm)" min="0">
             <input type="number" name="max_weight" placeholder="Max Weight (hg)" min="0">
@@ -46,7 +51,7 @@
             <button type="submit">Apply Filter</button>
         </form>
 
-        <!-- 📦 Kort-raster -->
+        <!-- Grid med alla Pokémon-kort som visas dynamiskt -->
         <div id="pokemonGrid" class="grid">
             {% for p in pokemon_list %}
                 <div class="card" data-name="{{ p.name | lower }}">
@@ -55,6 +60,8 @@
                     <p class="poke-info">Height: {{ p.height }} dm</p>
                     <p class="poke-info">Weight: {{ p.weight }} hg</p>
                     <p class="poke-info">Attack: {{ p.attack }}</p>
+
+                    <!-- Formulär som låter användaren visa detaljerad information för en specifik Pokémon -->
                     <form method="POST" action="/">
                         <input type="hidden" name="pokemon_name" value="{{ p.name }}">
                         <button type="submit">Details</button>
@@ -63,15 +70,17 @@
             {% endfor %}
         </div>
 
-        <!-- Alternativ länk för extra tydlighet -->
+        <!-- Alternativ länk tillbaka till huvudsidan längst ned på sidan -->
         <p style="margin-top: 30px;"><a href="/">← Back</a></p>
     </div>
 
-    <!-- 🔍 Sökfunktion (om du lägger till sökfältet senare) -->
+    <!-- JavaScript-funktionalitet: realtidsfiltrering baserat på namn -->
     <script>
+        // Hämta sökfältet om det finns (kan vara från annan layout)
         const input = document.getElementById("searchInput");
         const cards = document.querySelectorAll(".card");
 
+        // Filtrera korten baserat på inmatat namn i realtid
         if (input) {
             input.addEventListener("input", () => {
                 const val = input.value.toLowerCase();

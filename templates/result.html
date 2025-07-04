@@ -2,16 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    
+    <!-- Dynamisk titel baserad på Pokémonens namn -->
     <title>{{ pokemon.name.capitalize() }}</title>
+
+    <!-- Länkar till den globala stilfilen (main.css) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
     <div class="container">
+
+        <!-- Rubrik som visar Pokémonens namn i versaler och använder glitch-effekt via CSS -->
         <h1 class="glitch">🧬 {{ pokemon.name.upper() }} STATS</h1>
+
+        <!-- Pokémonens sprite (standardbild) hämtad från API:ets JSON-svar -->
         <img src="{{ pokemon.sprites.front_default }}" alt="Sprite">
+
+        <!-- Sektion med detaljerad information om Pokémonens attribut -->
         <div class="details">
+
+            <!-- Vikt i hektoenheter -->
             <p><strong>⚖️ Weight:</strong> {{ pokemon.weight }}</p>
+
+            <!-- Höjd i decimeter -->
             <p><strong>📏 Height:</strong> {{ pokemon.height }}</p>
+
+            <!-- Lista över alla typer Pokémonen tillhör -->
             <p><strong>🔥 Types:</strong></p>
             <ul>
                 {% for type in pokemon.types %}
@@ -19,7 +35,10 @@
                 {% endfor %}
             </ul>
         </div>
+
+        <!-- Länk för att återgå till startskärmen (indexsidan) -->
         <a href="/" style="color:#f0f; text-decoration: none;">← RETURN TO TERMINAL</a>
+
     </div>
 </body>
 </html>
