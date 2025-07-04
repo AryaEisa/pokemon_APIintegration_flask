@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Pokémon Overkill Terminal</title>
+    
 
     <!-- Länk till extern stilfil (CSS) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
@@ -12,7 +13,7 @@
 
         <!-- Sidans huvudrubrik med stilklass "glitch" för animerad visuell effekt -->
         <h1 class="glitch">⚡ POKéMON CYBER TERMINAL ⚡</h1>
-
+        <br>
         <!-- Formulär som tar emot användarens input (namn på Pokémon) och skickar via POST-metod -->
         <form method="POST">
             <input type="text" name="pokemon_name" placeholder="ENTER NAME">
@@ -26,6 +27,7 @@
         {% endif %}
 
         <!-- Länk till en separat vy där alla Pokémon visas som kort -->
+         <br><br>
         <p><a href="/all">See all Pokémon</a></p>
 
     </div>

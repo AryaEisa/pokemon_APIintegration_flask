@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 from typing import Optional, List, Dict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 app = Flask(__name__)
 base_url = "https://pokeapi.co/api/v2/"
@@ -31,7 +32,7 @@ def fetch_pokemon_data(pokemon_id: int) -> Optional[Dict]:
             "total": total_stats
         }
     except (requests.RequestException, ValueError) as e:
-        print(f"⚠️ Failed to fetch data for Pokémon ID {pokemon_id}: {e}")
+        print(f"[!] Misslyckades att hämta data för Pokémon ID {pokemon_id}: {e}")
         return None
 
 
@@ -43,9 +44,21 @@ def get_pokemon_info(name: str) -> Optional[Dict]:
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
-        print(f"⚠️ Error fetching Pokémon '{name}': {e}")
+        print(f"[!] Fel vid hämtning av Pokémon '{name}': {e}")
         return None
 
+
+def fetch_all_pokemon_parallel(start: int, end: int) -> List[Dict]:
+    """Hämtar flera Pokémon parallellt med ThreadPoolExecutor"""
+    results = []
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        # Starta alla anrop samtidigt
+        future_to_id = {executor.submit(fetch_pokemon_data, i): i for i in range(start, end)}
+        for future in as_completed(future_to_id):
+            data = future.result()
+            if data:
+                results.append(data)
+    return results
 
 # =========================
 # ROUTES
@@ -55,22 +68,20 @@ def get_pokemon_info(name: str) -> Optional[Dict]:
 def all_pokemon():
     """Visa alla Pokémon med filtreringsmöjligheter"""
 
-    # Konfiguration – ändra här om du vill visa fler Pokémon
+    # Konfiguration – antal Pokémon att hämta (1–50)
     MAX_POKEMON = 50
-    pokemon_list: List[Dict] = []
 
-    # 1. Hämta alla Pokémon och bygg listan
-    for i in range(1, MAX_POKEMON + 1):
-        data = fetch_pokemon_data(i)
-        if data:
-            pokemon_list.append(data)
+    # 1. Hämta alla Pokémon parallellt
+    pokemon_list = fetch_all_pokemon_parallel(1, MAX_POKEMON + 1)
 
     # 2. Om filtrering är aktiv (POST-request)
     if request.method == "POST":
+        # Hämta filtervärden från formuläret
         min_height = int(request.form.get("min_height") or 0)
         max_weight = int(request.form.get("max_weight") or 9999)
         min_attack = int(request.form.get("min_attack") or 0)
 
+        # Filtrera listan enligt villkoren
         pokemon_list = [
             p for p in pokemon_list
             if p["height"] >= min_height
@@ -78,7 +89,7 @@ def all_pokemon():
             and p["attack"] >= min_attack
         ]
 
-    # 3. Rendera HTML-sidan med filtrerad lista
+    # 3. Rendera HTML-sidan med filtrerad (eller ofiltrerad) lista
     return render_template("all.html", pokemon_list=pokemon_list)
 
 
@@ -91,20 +102,20 @@ def index():
         if not pokemon_name:
             return render_template("index.html", error="Please enter a Pokémon name.")
 
+        # Hämta Pokémon-data från API
         data = get_pokemon_info(pokemon_name)
         if data:
             return render_template("result.html", pokemon=data)
         else:
             return render_template("index.html", error="Pokémon not found.")
 
-    # GET: visa bara sökformuläret
+    # GET-request – visa formulär
     return render_template("index.html")
-
 
 # =========================
 # MAIN
 # =========================
 
 if __name__ == "__main__":
-    # Starta servern med debug-läge aktivt
+    # Kör Flask-server i utvecklingsläge med felsökning aktiverad
     app.run(debug=True)

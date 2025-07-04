@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>All Pokémon</title>
 
-    <!-- Länkar till extern CSS-fil -->
+    <!-- Länk till extern CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='all.css') }}">
 
+    <!-- Intern stil för tillbaka-knappen i övre hörnet -->
     <style>
-        /* Fast placerad stäng-knapp ("X") uppe i högra hörnet */
         .close-button {
             position: fixed;
             top: 16px;
             right: 16px;
             background-color: #f87171;
             color: #fff;
-            font-family: 'Press Start 2P';
+            font-family: 'Press Start 2P', monospace;
             font-size: 12px;
             padding: 8px 12px;
             border: none;
@@ -36,51 +36,55 @@
     <div class="container">
 
         <!-- Sidhuvud -->
-        <h1>All Pokémon</h1>
+        <header>
+            <h1>All Pokémon</h1>
 
-        <!-- Tillbaka-knapp (kors) som leder tillbaka till startsidan -->
-        <a href="/">
-            <button class="close-button">X</button>
-        </a>
+            <!-- Tillbaka-knapp (överst) -->
+            <a href="/" aria-label="Return to main page">
+                <button class="close-button" title="Back to start">X</button>
+            </a>
+        </header>
 
-        <!-- Filtreringsformulär: Användaren kan filtrera på höjd, vikt och attack -->
-        <form method="POST" class="filter-form">
-            <input type="number" name="min_height" placeholder="Min Height (dm)" min="0">
-            <input type="number" name="max_weight" placeholder="Max Weight (hg)" min="0">
-            <input type="number" name="min_attack" placeholder="Min Attack" min="0">
-            <button type="submit">Apply Filter</button>
-        </form>
+        <!-- Filtreringsformulär -->
+        <section aria-label="Filter Pokémon">
+            <form method="POST" class="filter-form">
+                <input type="number" name="min_height" placeholder="Min Height (dm)" min="0">
+                <input type="number" name="max_weight" placeholder="Max Weight (hg)" min="0">
+                <input type="number" name="min_attack" placeholder="Min Attack" min="0">
+                <button type="submit">Apply Filter</button>
+            </form>
+        </section>
 
-        <!-- Grid med alla Pokémon-kort som visas dynamiskt -->
-        <div id="pokemonGrid" class="grid">
+        <!-- Pokémon-grid med kort -->
+        <main id="pokemonGrid" class="grid" aria-label="Pokémon Cards">
             {% for p in pokemon_list %}
-                <div class="card" data-name="{{ p.name | lower }}">
-                    <img src="{{ p.img }}" alt="{{ p.name }}">
+                <article class="card" data-name="{{ p.name | lower }}" aria-label="Pokémon card for {{ p.name }}">
+                    <img src="{{ p.img }}" alt="{{ p.name }} image">
                     <p class="poke-name">{{ p.name }}</p>
                     <p class="poke-info">Height: {{ p.height }} dm</p>
                     <p class="poke-info">Weight: {{ p.weight }} hg</p>
                     <p class="poke-info">Attack: {{ p.attack }}</p>
 
-                    <!-- Formulär som låter användaren visa detaljerad information för en specifik Pokémon -->
+                    <!-- Formulär för att visa detaljerad vy -->
                     <form method="POST" action="/">
                         <input type="hidden" name="pokemon_name" value="{{ p.name }}">
                         <button type="submit">Details</button>
                     </form>
-                </div>
+                </article>
             {% endfor %}
-        </div>
+        </main>
 
-        <!-- Alternativ länk tillbaka till huvudsidan längst ned på sidan -->
-        <p style="margin-top: 30px;"><a href="/">← Back</a></p>
+        <!-- Alternativ navigeringslänk -->
+        <footer>
+            <p style="margin-top: 30px;"><a href="/">← Back</a></p>
+        </footer>
     </div>
 
-    <!-- JavaScript-funktionalitet: realtidsfiltrering baserat på namn -->
+    <!-- JS för realtidsfiltrering (om sökfält finns) -->
     <script>
-        // Hämta sökfältet om det finns (kan vara från annan layout)
         const input = document.getElementById("searchInput");
         const cards = document.querySelectorAll(".card");
 
-        // Filtrera korten baserat på inmatat namn i realtid
         if (input) {
             input.addEventListener("input", () => {
                 const val = input.value.toLowerCase();
